@@ -1,21 +1,37 @@
 import { useNavigate } from "react-router-dom";
-//import { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const NavBar = () => {
+type TabId = "todo" | "settings" | "timer";
+
+interface NavBarProps {
+    openTabs: TabId[];
+    toggleTab: (tabId: TabId) => void;
+    clearAllTabs: () => void;
+}
+
+const NavBar = ({ openTabs, toggleTab, clearAllTabs }: NavBarProps) => {
     const navigate = useNavigate();
+    
     const handleSettingsClick = () => {
-        navigate('/settings');
-    }
-    const handleTimerClick = () => {
-        navigate('/timer');
-    }
-    const handleHomeClick = () => {
+        toggleTab('settings');
         navigate('/');
     }
-    const handleToDo = () => {
-        navigate('/todo');
+    
+    const handleTimerClick = () => {
+        toggleTab('timer');
+        navigate('/');
     }
+    
+    const handleHomeClick = () => {
+        clearAllTabs();
+        navigate('/');
+    }
+    
+    const handleToDo = () => {
+        toggleTab('todo');
+        navigate('/');
+    }
+    
     return (
         <div>
             <button onClick={handleHomeClick}>Home</button>

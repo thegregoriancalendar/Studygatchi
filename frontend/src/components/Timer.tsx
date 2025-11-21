@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./Timer.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 type SessionType = "Work" | "Short Break" | "Long Break";
 
@@ -98,8 +99,18 @@ export default function Timer() {
   };
 
   return (
-    <div className="card timer-card">
-      <h2>Pomodoro Timer</h2>
+    <div className="card bCard" style={{ width: "400px" }}>
+      <div
+        className="card-header"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
+        <text>Pomodoro Timer</text>
+      </div>
+      <div className="card-body">
       <div className="timer-display">
         <svg className="progress-ring" width="200" height="200">
           <circle
@@ -202,8 +213,9 @@ export default function Timer() {
         </div>
       )}
 
-      <div className="meta">
-        <small>Completed cycles: {completedCycles}</small>
+        <div className="meta">
+          <small>Completed cycles: {completedCycles}</small>
+        </div>
       </div>
     </div>
   );

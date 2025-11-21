@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function ToDoList() {
   const [items, setItems] = useState([
@@ -38,52 +39,74 @@ export default function ToDoList() {
     });
   };
 
+  const handleLockIn = () => {
+    // Lock in functionality - can be extended later
+    console.log("Locked in!", items);
+  };
+
   return (
-    <div>
-      <div className="todolist-logo">
-        <h1>Goober To Do List</h1>
-      </div>
-
-      <form className="Add-item" onSubmit={addItem}>
-        <input
-          type="text"
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
-        />
-        <button className="todolist-addItem" type="submit">
-          Add
-        </button>
-      </form>
-
-      <ul
+    <div className="card bCard todolist-card" style={{ width: "400px" }}>
+      <div
+        className="card-header"
         style={{
-          maxWidth: "400px",
-          margin: "0 auto",
-          listStyleType: "none",
-          padding: 0,
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "row",
         }}
       >
-        {items.map((item) => (
-          <li key={item} className="todolist-item">
-            <div className="wrapper">
-              <input
-                type="checkbox"
-                id={`checkbox-${item}`}
-                name={item}
-                checked={checkedItems[item]}
-                onChange={() => checkItem(item)}
-              />
-              <label htmlFor={`checkbox-${item}`}>{item}</label>
-            </div>
-            <button
-              className="todolist-trashbutton"
-              onClick={() => removeItem(item)}
-            >
-              Del
-            </button>
-          </li>
-        ))}
-      </ul>
+        <text>to do list</text>
+      </div>
+      <div className="card-body todolist-card-body">
+        <div className="todolist-wrapper">
+          <div className="todolist-items-container">
+            {items.map((item, index) => {
+              const itemKey = `${item}-${index}`;
+              return (
+                <div key={itemKey} className="todolist-task-item">
+                  <input
+                    type="checkbox"
+                    id={`checkbox-${itemKey}`}
+                    className="todolist-checkbox"
+                    checked={checkedItems[item] || false}
+                    onChange={() => checkItem(item)}
+                  />
+                  <label 
+                    htmlFor={`checkbox-${itemKey}`}
+                    className={checkedItems[item] ? "todolist-label checked" : "todolist-label"}
+                  >
+                    {item}
+                  </label>
+                  <button
+                    className="todolist-remove-btn"
+                    onClick={() => removeItem(item)}
+                    aria-label="Remove task"
+                  >
+                    ×
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <form className="todolist-add-form" onSubmit={addItem}>
+          <input
+            type="text"
+            className="todolist-input"
+            value={newItem}
+            onChange={(e) => setNewItem(e.target.value)}
+            placeholder="Add new task..."
+          />
+          <button className="todolist-add-btn" type="submit">
+            Add Task
+          </button>
+        </form>
+      </div>
+      <div className="card-footer todolist-footer">
+        <button className="todolist-lockin-btn" onClick={handleLockIn}>
+          Lock in!
+        </button>
+      </div>
     </div>
   );
 }
